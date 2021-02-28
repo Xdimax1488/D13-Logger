@@ -1,0 +1,29 @@
+{% extends 'flatpages/default.html' %}
+{% load custom_filters %}
+
+{% block title %}
+Search
+{% endblock title%}
+
+{% block content %}
+<form method="GET">
+    {{filter.form}}
+    <input type="submit" value="найти">
+</form>
+{% for post in filter.qs %}
+<table>
+    <tr>
+        <td>
+            {{ post.datetime|date:'d M Y' }}
+        </td>
+        <td>
+            {{ post.text_title|truncatechars:50|censor:'%%' }}
+        </td>
+        <td>
+            {{ post.author }}
+        </td>
+
+    </tr>
+    {% endfor %}
+</table>
+{% endblock content %}

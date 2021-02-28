@@ -1,0 +1,84 @@
+{% extends 'flatpages/default.html' %}
+{% load custom_filters %}
+{% load cache %}
+
+{% block title %}
+News
+{% endblock title%}
+
+
+
+{% block content %}
+   <h1>Все новости</h1>
+   <div class=" btn btn-primary col-lg-8 col-lg-10 mx-auto">
+        <a class="btn btn-primary float-left" href="{% url 'category' category_politic%}">Политика</a>
+        <a class="btn btn-primary float-left" href="{% url 'category' category_sport%}">Спорт</a>
+        <a class="btn btn-primary float-left" href="{% url 'category' category_weather%}">Погода</a>
+        <a class="btn btn-primary float-left" href="{% url 'category' category_economics%}">Економика</a>
+        <a class="btn btn-primary float-right" href="{% url 'search' %}">Поиск по статьям</a><br>
+    </div>
+   <h2> Количество статей: {{News|length}}</h2>
+
+   {% if News %}
+       <table>
+           <tr>
+               <td>
+                   Заголовок<br>
+               </td>
+               <td>
+                   Дата публикации                  <br>
+               </td>
+               <td>
+                   Категория                      <br>
+               </td>
+               <td>
+                   Текс стати<br>
+               </td>
+
+           </tr>
+           {% for new in News %}
+             <tr>
+                 <td>
+                     {{new.text_title|censor:'%%'}}
+                     <a href="{% url 'post_edit' new.id%}"><u>Редактировать</u></a>
+                     <a href="{% url 'post_delete' new.id%}"><u>Удалить</u></a>
+                 </td>
+                 <td>
+                     {{new.datetime|date:'d M Y'}}
+                 </td>
+                 <td>
+                     {{new.post_category}}
+                 </td>
+                 <td>
+                     <a href="{{new.id}}"> {{new.text_news|truncatechars:50|censor:'%%'}}</a>
+                 </td>
+
+             </tr>
+           {% endfor %}
+       </table>
+<a href="{% url 'create_post' %}">Добавить новый пост</a> <br>
+
+   {% else %}
+       <h2> Новостей нету</h2>
+   {% endif %}
+{% if is_paginated %}
+    {% if page_obj.has_previous %}
+        <a href="?page=1">First</a>
+        <a href="?page={{ page_obj.previous_page_number }}"><<<</a>
+    {% endif %}
+    {% for num in page_obj.paginator.page_range %}
+        {% if page_obj.number == num %}
+            <a>{{ num }}</a>
+        {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+            <a href="?page={{ num }}">{{ num }}</a>
+        {% endif %}
+    {% endfor %}
+    {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}">>>></a>
+        <a href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+    {% endif %}
+{% endif %}
+
+
+{% endblock  %}
+

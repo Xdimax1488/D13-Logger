@@ -1,0 +1,58 @@
+{% extends 'flatpages/default.html' %}
+{% load custom_filters %}
+
+{% block title %}
+Create
+{% endblock title%}
+
+{% block content %}
+{% if is_subscribe %}
+<a class="btn btn-primary float-center" href="{% url 'unsubscribe' %}" >Отписаться</a><br>
+{% else %}
+<a class="btn btn-primary float-center" href="{% url 'subscribe' %}" >Подписаться</a><br>
+{% endif %}
+
+    <div class="col-lg-8 col-lg-10 mx-auto">
+        {% if PostCategory %}
+        <table width="100%" cellspacing="0" cellpadding="4">
+            <tr>
+                <td>
+                    <p style="text-align: center;"><strong>Заголовок</strong></p>
+                <td>
+                <td>
+                    <p style="text-align: center;"><strong>Дата публикации</strong></p>
+                <td>
+                <td>
+                    <p style="text-align: center;"><strong>Категория</strong></p>
+                <td>
+                <td>
+                    <p style="text-align: center;"><strong>Текс стати</strong></p>
+                <td>
+
+            <tr>
+                {% for post in category_news %}
+            <tr>
+                <td>
+                    <p style="text-align: center;">{{ post.text_title|censor:'%%' }}</p>
+                <td>
+                <td>
+                    <p style="text-align: center;">{{ post.datetime|date:'d M Y h:m' }}</p>
+                <td>
+                <td width="3000">
+                    <a style="text-align: center;"> {{ post.category_name }}</a>
+                <td>
+                <td width="2000">
+                    <p style="text-align: center;" href="{{ post.id }}">{{ post.text_news|truncatechars:50|censor:'%%'}}</p>
+                <td>
+
+                <td>
+                    <a style="text-align: center;" href="{% url 'post_edit' post.id %}"><u> Редактировать </u></a>
+                    <a style="text-align: right;" href="{% url 'post_delete' post.id %}"><u> Удалить </u></a>
+                <td>
+            <tr>
+                {% endfor %}
+        </table>
+        {% endif %}
+
+    </div>
+{% endblock content %}

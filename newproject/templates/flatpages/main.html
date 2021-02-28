@@ -1,0 +1,15 @@
+{% extends 'flatpages/default.html' %}
+
+
+{% block title %}
+{{flatpage.title}}
+{% endblock title %}
+
+{% load cache %}
+{% cache content %}
+{% block content %}
+<h1>{{flatpage.title}}</h1>
+<font size="15" color="red" face="Arial">{{flatpage.content}}</font>
+
+{% endblock  %}
+{% endcache content %}

@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1> Дайджест новостей за прошедшую неделю в категории {{ category }}.</h1>
+ {% for post in posts %}
+
+       <a href="http://127.0.0.1:8000/news/{{ post.id }}">{{ post.text_title }}</a><br>"
+ {% endfor %}
+
+
+</body>
+</html>

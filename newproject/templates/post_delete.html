@@ -1,0 +1,45 @@
+{% extends 'flatpages/default.html' %}
+{% load custom_filters %}
+
+{% block title %}
+Delete
+{% endblock title%}
+
+{% block content %}
+{% load cache %}
+{% cache 100 head %}
+<h1>Вы действительно хотите удалить даную статю?</h1>
+<table>
+    <thead>
+           <tr>
+               <td>
+                   заголовок
+               </td>
+               <td>
+                   дата публикации
+               </td>
+               <td>
+                   текс стати
+               </td>
+
+           </tr>
+    </thead>
+{% endcache head %}
+           <tr>
+                 <td>
+                     {{News.text_title|censor:'%%'}}
+                 </td>
+                 <td>
+                     {{News.datetime|date:'d M Y'}}
+                 </td>
+                 <td>
+                     {{News.text_news|truncatechars:50|censor:'%%'}}
+                 </td>
+
+             </tr>
+</table>
+<form method="POST">
+    {% csrf_token %}
+    <input type="submit" value="подтвердить">
+</form>
+{% endblock content %}

@@ -1,0 +1,15 @@
+{% extends 'flatpages/default.html' %}
+{% load custom_filters %}
+
+{% block title %}
+Create
+{% endblock title%}
+
+{% block content %}
+<h3>редактирование поста/стати:</h3>
+<form method="POST">
+    {% csrf_token %}
+    {{ form }}
+    <input type="submit" value="сохранить">
+</form>
+{% endblock content %}
